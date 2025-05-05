@@ -1,0 +1,251 @@
+/* css/style.css */
+
+/* Color Palette */
+:root {
+    --darkest:    #1A1A1D;
+    --darker:     #391B30;
+    --mid:        #591D48;
+    --light:      #974170;
+    --highlight:  #C45C83;
+    --text-light: #FDFDFD;
+  }
+  
+  /* fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+  
+  /* resets */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* global */
+  body {
+    font-family: 'Fredoka One', cursive;
+    background: var(--darkest);
+    color: var(--text-light);
+    padding: 30px;
+    overflow-x: hidden;
+    position: relative;
+  }
+  
+  /* nav top-right */
+  nav {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+  
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  nav a {
+    text-decoration: none;
+    color: var(--light);
+    font-size: 1.1rem;
+  }
+  
+  nav a:hover {
+    color: var(--highlight);
+  }
+  
+  /* title with image and symbol */
+  h1 {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--highlight);
+    animation: popIn 0.6s ease-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .title-image {
+    height: 11rem;
+    object-fit: contain;
+    animation: popIn 0.6s ease-out;
+  }
+  
+  .target {
+    display: inline-block;
+    transform: rotate(-10deg);
+    animation: wiggle 1s infinite ease-in-out;
+  }
+  
+  /* controls */
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .controls input {
+    padding: 10px;
+    width: 200px;
+    border: 2px solid var(--mid);
+    border-radius: 5px;
+    background: var(--darker);
+    color: var(--text-light);
+  }
+  
+  .controls button {
+    padding: 10px 20px;
+    background: var(--mid);
+    color: var(--text-light);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .controls button:hover {
+    background: var(--light);
+  }
+  
+  /* grid & cards */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-auto-rows: minmax(260px, auto);
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .card {
+    display: block;
+    position: relative;
+    perspective: 1000px;
+    cursor: pointer;
+    min-height: 260px;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  
+  .card:hover .card-inner,
+  .card-inner.flipped {
+    transform: rotateY(180deg);
+  }
+  
+  .card.loading:hover .card-inner {
+    transform: none !important;
+  }
+  
+  .card-front,
+  .card-back {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    backface-visibility: hidden;
+    background: var(--darker);
+    border: 4px solid var(--mid);
+    border-radius: 20px;
+    box-shadow: 0 10px 0 var(--mid);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .card:hover .card-front,
+  .card:hover .card-back {
+    box-shadow: 0 15px 0 var(--light);
+  }
+  
+  .card-front img {
+    max-width: 100px;
+    margin-bottom: 10px;
+  }
+  
+  .card-back {
+    transform: rotateY(180deg);
+  }
+  
+  .label {
+    font-size: 1.2rem;
+    color: var(--light);
+  }
+  
+  /* back-button */
+  .back {
+    position: absolute;
+    top: 20px; left: 20px;
+  }
+  
+  .back a {
+    display: inline-block;
+    padding: 8px 12px;
+    background: var(--mid);
+    color: var(--text-light);
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+  }
+  
+  .back a:hover {
+    background: var(--light);
+  }
+  
+  /* shot-effect keyframes — scale only, solid opacity */
+  @keyframes shotEffect {
+    0% {
+      transform: translate(-50%, -50%) scale(0.5);
+      opacity: 1;
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.2);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+  }
+  
+  /* bullet-hole overlay on the card container */
+  .card.loading::after {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 60px; height: 60px;
+    background: url('../assets/images/bullet-hole.png') no-repeat center center;
+    background-size: contain;
+    transform: translate(-50%, -50%) scale(0.5);
+    animation: shotEffect 1s ease-out forwards;
+    pointer-events: none;
+    z-index: 10;
+  }
+  
+  /* animations */
+  @keyframes popIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+  
+  @keyframes wiggle {
+    0%,100% { transform: rotate(-10deg); }
+    50%     { transform: rotate(10deg); }
+  }
+  
+  /* responsive */
+  @media (max-width: 600px) {
+    h1 { font-size: 2rem; }
+  }
+  
